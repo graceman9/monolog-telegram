@@ -13,6 +13,13 @@
     ],
     "homepage": "https://github.com/graceman9/monolog-telegram",
     "license": "MIT",
+    "authors": [
+        {
+            "name": "Moein Rahimi",
+            "email": "m.rahimi2150@gmail.com",
+            "role": "Developer"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "graceman9\\TelegramHandler\\": "src"
