@@ -1,5 +1,6 @@
 <?php
-namespace rahimi\TelegramHandler;
+
+namespace graceman9\TelegramHandler;
 
 use Exception;
 use Monolog\Formatter\LineFormatter;
@@ -14,10 +15,8 @@ use Monolog\Logger;
  *
  * @author Moein Rahimi <m.rahimi2150@gmail.com>
  */
-
 class TelegramHandler extends AbstractProcessingHandler
 {
-
     private $token;
     private $channel;
     private $dateFormat;
@@ -29,10 +28,10 @@ class TelegramHandler extends AbstractProcessingHandler
      * @param string $token Telegram Bot Access Token Provided by BotFather
      * @param string $channel Telegram Channel userName
      * @param string $timezone set default date timezone
-     * @param string $dateFormat set default date format 
-     * @param string $timeOut curl timeout 
+     * @param string $dateFormat set default date format
+     * @param string $timeOut curl timeout
      */
-    public function __construct($token, $channel,$timeZone = 'UTC',$dateFormat='Y-m-d H:i:s',$timeOut = 100)
+    public function __construct($token, $channel, $timeZone = 'UTC', $dateFormat = 'Y-m-d H:i:s', $timeOut = 100)
     {
         $this->token   = $token;
         $this->channel = $channel;
@@ -51,7 +50,7 @@ class TelegramHandler extends AbstractProcessingHandler
         $format = new LineFormatter;
         $context = $record['context'] ? $format->stringify($record['context']) : '';
         $date =  date($this->dateFormat);
-        $message =  $date . ' ' . $record['channel'].'.'.$record['level_name'] . ' ' . PHP_EOL . $this->getEmoji($record['level']) . ' ' . $record['message'] . ' ' . $context . ' ' . json_encode($record['extra']);
+        $message =  $date . ' ' . $record['channel'] . '.' . $record['level_name'] . ' ' . PHP_EOL . $this->getEmoji($record['level']) . ' ' . $record['message'] . ' ' . $context . ' ' . json_encode($record['extra']);
         $this->send($message);
     }
 
@@ -63,27 +62,27 @@ class TelegramHandler extends AbstractProcessingHandler
      */
     public function send($message)
     {
-      try{
-        $ch = curl_init();
-        $url = self::host . $this->token . "/SendMessage";
-        $timeOut = $this->timeOut;
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeOut); 
-        curl_setopt($ch, CURLOPT_TIMEOUT, $timeOut); 
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(array(
-            'text'    => $message,
-            'chat_id' => $this->channel,
-        )));
-         $result = curl_exec($ch);
-         $result = json_decode($result,1);
-         if($result['ok'] === false){
-            echo  'telegram api response : ' .$result['description'];
-         }
-       }catch(Exception $error){
-         echo $error;
-       }
+        try {
+            $ch = curl_init();
+            $url = self::host . $this->token . "/SendMessage";
+            $timeOut = $this->timeOut;
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeOut);
+            curl_setopt($ch, CURLOPT_TIMEOUT, $timeOut);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(array(
+                'text'    => $message,
+                'chat_id' => $this->channel,
+            )));
+            $result = curl_exec($ch);
+            $result = json_decode($result, 1);
+            if ($result['ok'] === false) {
+                echo  'telegram api response : ' . $result['description'];
+            }
+        } catch (Exception $error) {
+            echo $error;
+        }
     }
 
     /**
@@ -116,5 +115,4 @@ class TelegramHandler extends AbstractProcessingHandler
         $levelEmojiMap = $this->emojiMap();
         return $levelEmojiMap[$level];
     }
-
 }

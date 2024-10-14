@@ -1,5 +1,5 @@
 {
-    "name": "rahimi/monolog-telegram",
+    "name": "graceman9/monolog-telegram",
     "version": "1.0.6",
     "description": "A handler for Monolog that sends messages to Telegram Channels",
     "keywords": [
@@ -11,18 +11,11 @@
         "channels",
         "bots"
     ],
-    "homepage": "https://github.com/moeinrahimi/monolog-telegram",
+    "homepage": "https://github.com/graceman9/monolog-telegram",
     "license": "MIT",
-    "authors": [
-        {
-            "name": "Moein Rahimi",
-            "email": "m.rahimi2150@gmail.com",
-            "role": "Developer"
-        }
-    ],
     "autoload": {
         "psr-4": {
-            "rahimi\\TelegramHandler\\": "src"
+            "graceman9\\TelegramHandler\\": "src"
         }
     },
     "require": {
